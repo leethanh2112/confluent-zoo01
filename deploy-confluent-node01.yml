@@ -44,6 +44,9 @@ spec:
         - containerPort: 2888
         - containerPort: 3888
         - containerPort: 10999
+        env:
+        - name: ZOOKEEPER_CLIENT_PORT
+          value: "2181"
 
 
 
