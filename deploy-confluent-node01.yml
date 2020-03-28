@@ -1,0 +1,51 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: confluent-zoo01
+  namespace: confluent
+spec:
+  ports:
+  - name: port-2181
+    port: 2181
+    protocol: TCP 
+  - name: port-2888
+    port: 2888
+    protocol: TCP 
+  - name: port-3888
+    port: 3888
+    protocol: TCP
+  - name: port-10999
+    port: 10999
+    protocol: TCP  
+  selector:
+    app: confluent-zoo01
+---
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: confluent-zoo01
+  namespace: confluent
+spec:
+  selector:
+    matchLabels:
+      app: confluent-zoo01
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: confluent-zoo01
+    spec:
+      containers:
+      - name: confluent-zoo01
+        image: docker.registry.local:5000/confluent-zoo01:v1.${BUILD_NUMBER}
+        ports:
+        - containerPort: 2181
+        - containerPort: 2888
+        - containerPort: 3888
+        - containerPort: 10999
+
+
+
+
+
